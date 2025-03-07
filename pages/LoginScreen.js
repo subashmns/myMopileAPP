@@ -16,7 +16,7 @@ export default function LoginScreen({ navigation }) {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigation.replace("Home"); // Navigate to Home after successful login
+      navigation.replace("MainTabs"); // Navigate to Home after successful login
     } catch (error) {
       Alert.alert("Login Failed", error.message);
     }

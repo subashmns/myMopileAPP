@@ -2,21 +2,26 @@ import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+import { auth } from "./firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
+
+// Importing Screens
 import LoginScreen from "./pages/LoginScreen";
 import SignupScreen from "./pages/SignupScreen";
 import HomeScreen from "./pages/HomeScreen";
 import ProfileScreen from "./pages/ProfileScreen";
 import SettingsScreen from "./pages/SettingsScreen";
-import { auth } from "./firebaseConfig";
-import { onAuthStateChanged } from "firebase/auth";
-import { Ionicons } from "@expo/vector-icons";
 
+// Stack and Tab Navigator
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+// Tab Navigator (Bottom Navigation)
 function MainTabs() {
   return (
     <Tab.Navigator
+      initialRouteName="Home"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           let iconName;
@@ -34,6 +39,7 @@ function MainTabs() {
   );
 }
 
+// Main App Component
 export default function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -47,13 +53,13 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  if (loading) return null; // Prevent navigation errors before state is confirmed
+  if (loading) return null; // Prevents navigation errors before state is confirmed
 
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
-          <Stack.Screen name="MainTabs" component={MainTabs} />
+          <Stack.Screen name="Home" component={MainTabs} />
         ) : (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
